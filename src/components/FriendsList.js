@@ -21,7 +21,7 @@ class FriendsList extends React.Component {
 
     const friendsList = friends
       .filter( friend => friend.name.toLowerCase().indexOf( this.state.searchText.toLowerCase() ) !== -1)
-      .sort( (a, b) => a[ this.state.orderBy ] > b[ this.state.orderBy ] )
+      .sort( (a, b) => a[ this.state.orderBy ] > b[ this.state.orderBy ] ? 1 : -1 )
       .map( friend => (
       <Friend
         currentLocation={ friend.current_location || {} }
@@ -32,6 +32,8 @@ class FriendsList extends React.Component {
         status={ friend.status ? friend.status.message : "" }
       />
     ));
+
+    const displayFriends = this.state.order === "ascending" ? friendsList : friendsList.slice().reverse();
 
     return(
     <div>
@@ -60,7 +62,7 @@ class FriendsList extends React.Component {
         </form>
 
         <ul>
-          { friendsList }
+          { displayFriends }
         </ul>
     </div>
     );
